@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Catalog.Service.Entities;
-using Common.Service.Settings;
-using Common.MongoDB;
+using Play.Common.Settings;
+using Play.Common.MongoDB;
+using Play.Common.MassTransit;
 
 namespace Catalog.Service
 {
@@ -27,7 +28,10 @@ namespace Catalog.Service
             serviceSettings = Configuration.GetSection(nameof(serviceSettings)).Get<ServiceSettings>();
 
             services.AddMongo()
-                    .AddMongoRepository<Item>("items");
+                    .AddMongoRepository<Item>("items")
+                    .AddMassTransitWithRabbitMq();
+
+            //services.AddMassTransitHostedService(); can be ignored for latest versions of masstransit
 
             services.AddControllers(options =>
             {
