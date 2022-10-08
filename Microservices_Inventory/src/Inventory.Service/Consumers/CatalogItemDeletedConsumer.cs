@@ -26,7 +26,7 @@ namespace Inventory.Service.Consumers
               return;
             } 
             
-            await repository.CreateAsync(item);
+            await repository.RemoveAsync(item.Id);
         }
     }
 }
