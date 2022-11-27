@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Play.Common;
+using Common;
 using Inventory.Service.Clients;
 using Inventory.Service.Dtos;
 using Inventory.Service.Entities;

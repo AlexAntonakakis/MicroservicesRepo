@@ -7,7 +7,7 @@ using Catalog.Service.Entities;
 using Microsoft.AspNetCore.Mvc;
 using MassTransit;
 using Catalog.Contracts;
-using Play.Common;
+using Common;
 
 namespace Catalog.Service.Controllers{
 

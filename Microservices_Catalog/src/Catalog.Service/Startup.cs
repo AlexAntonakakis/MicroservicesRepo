@@ -6,9 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Catalog.Service.Entities;
-using Play.Common.Settings;
-using Play.Common.MongoDB;
-using Play.Common.MassTransit;
+using Common.Settings;
+using Common.MongoDB;
+using Common.MassTransit;
+using Common.Service.Settings;
 
 namespace Catalog.Service
 {

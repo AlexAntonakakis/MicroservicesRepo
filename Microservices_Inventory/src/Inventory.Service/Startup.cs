@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Play.Common.MongoDB;
+using Common.MongoDB;
 using Inventory.Service.Clients;
 using Inventory.Service.Entities;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Timeout;
-using Play.Common.MassTransit;
+using Common.MassTransit;
 
 namespace Inventory.Service
 {

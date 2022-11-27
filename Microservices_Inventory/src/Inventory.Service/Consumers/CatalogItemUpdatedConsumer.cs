@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Catalog.Contracts;
-using Play.Common;
+using Common;
 using Inventory.Service.Entities;
 using MassTransit;
 
