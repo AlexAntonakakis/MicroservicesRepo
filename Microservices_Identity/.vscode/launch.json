@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MyIdentity.Service/bin/Debug/net5.0/MyIdentity.Service.dll",
+            "program": "${workspaceFolder}/src/MyIdentity.Service/bin/Debug/net7.0/MyIdentity.Service.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MyIdentity.Service",
             "stopAtEntry": false,
