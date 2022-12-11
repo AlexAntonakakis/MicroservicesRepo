@@ -10,6 +10,8 @@ using Common.Settings;
 using Common.MongoDB;
 using Common.MassTransit;
 using Common.Service.Settings;
+using Common.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Catalog.Service
 {
@@ -31,7 +33,8 @@ namespace Catalog.Service
 
             services.AddMongo()
                     .AddMongoRepository<Item>("items")
-                    .AddMassTransitWithRabbitMq();
+                    .AddMassTransitWithRabbitMq()
+                    .AddJwtBearerAuthentication();
 
             //services.AddMassTransitHostedService(); can be ignored for latest versions of masstransit
 
@@ -63,6 +66,8 @@ namespace Catalog.Service
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+             app.UseAuthentication(); //between routing and authorization
 
             app.UseAuthorization();
 

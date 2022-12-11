@@ -18,6 +18,7 @@ using Microsoft.OpenApi.Models;
 using Polly;
 using Polly.Timeout;
 using Common.MassTransit;
+using Common.Identity;
 
 namespace Inventory.Service
 {
@@ -37,7 +38,8 @@ namespace Inventory.Service
             services.AddMongo()
                     .AddMongoRepository<InventoryItem>("inventoryitems")
                     .AddMongoRepository<CatalogItem>("catalogitems")
-                    .AddMassTransitWithRabbitMq();
+                    .AddMassTransitWithRabbitMq()
+                    .AddJwtBearerAuthentication();
 
             AddCatalogClient(services);
 
@@ -68,6 +70,9 @@ namespace Inventory.Service
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseAuthentication(); //between routing and authorization
+
 
             app.UseAuthorization();
 

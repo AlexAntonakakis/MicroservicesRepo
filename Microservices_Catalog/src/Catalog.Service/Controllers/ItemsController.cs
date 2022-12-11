@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using MassTransit;
 using Catalog.Contracts;
 using Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Service.Controllers{
 
     [ApiController]
     [Route("items")]
+    [Authorize]
     public class ItemsController : ControllerBase
     {
         private readonly IRepository<Item> itemsRepository;

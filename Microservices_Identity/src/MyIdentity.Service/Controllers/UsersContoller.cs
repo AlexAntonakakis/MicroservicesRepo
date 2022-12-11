@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyIdentity.Service.Dtos;
 using MyIdentity.Service.Entities;
+using static Duende.IdentityServer.IdentityServerConstants;
 
 namespace MyIdentity.Service.Controllers
 {
     [ApiController]
     [Route("users")]
+    [Authorize(Policy = LocalApi.PolicyName)] // policy for securing API that lives in Identity server
     public class UsersController: ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
