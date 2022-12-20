@@ -36,6 +36,21 @@ namespace Catalog.Service
                     .AddMassTransitWithRabbitMq()
                     .AddJwtBearerAuthentication();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.Read, policy => 
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "catalog.readaccess", "catalog.fullaccess");
+                });
+
+                options.AddPolicy(Policies.Write, policy => 
+                {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim("scope", "catalog.writeaccess", "catalog.fullaccess");
+                });
+            });
+
             //services.AddMassTransitHostedService(); can be ignored for latest versions of masstransit
 
             services.AddControllers(options =>

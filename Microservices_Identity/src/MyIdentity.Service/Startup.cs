@@ -16,6 +16,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MyIdentity.Service.Entities;
+using MyIdentity.Service.HostedServices;
 using MyIdentity.Service.Settings;
 
 namespace MyIdentity.Service
@@ -37,7 +38,8 @@ namespace MyIdentity.Service
             var mongoDbSettings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
             var identityServerSettings = Configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
 
-            services.AddDefaultIdentity<ApplicationUser>()
+            services.Configure<IdentitySettings>(Configuration.GetSection(nameof(IdentitySettings)))
+                .AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<ApplicationRole>()
                 .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
                 (
@@ -59,6 +61,7 @@ namespace MyIdentity.Service
             services.AddLocalApiAuthentication();
 
             services.AddControllers();
+            services.AddHostedService<IdentitySeedHostedService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyIdentity.Service", Version = "v1" });

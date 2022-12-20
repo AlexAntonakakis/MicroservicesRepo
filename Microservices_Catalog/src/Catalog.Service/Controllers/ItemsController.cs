@@ -14,7 +14,6 @@ namespace Catalog.Service.Controllers{
 
     [ApiController]
     [Route("items")]
-    [Authorize]
     public class ItemsController : ControllerBase
     {
         private readonly IRepository<Item> itemsRepository;
@@ -27,6 +26,7 @@ namespace Catalog.Service.Controllers{
         }
 
         [HttpGet]
+        [Authorize(Policies.Read)]
         public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
         {
             var items = (await itemsRepository.GetAllAsync())
@@ -35,6 +35,8 @@ namespace Catalog.Service.Controllers{
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policies.Read)]
+
         public async Task<ActionResult<ItemDto>> GetByIdAsync(Guid id)
         {
             var item = await itemsRepository.GetAsync(id);
@@ -47,6 +49,8 @@ namespace Catalog.Service.Controllers{
 
         
         [HttpPost]
+        [Authorize(Policies.Write)]
+
         public async Task<ActionResult<ItemDto>> PostAsync(CreateItemDto createItemDto)
         {
 
@@ -66,6 +70,8 @@ namespace Catalog.Service.Controllers{
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policies.Write)]
+
         public async Task<IActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
         {
             var existingItem = await itemsRepository.GetAsync(id);
@@ -88,6 +94,8 @@ namespace Catalog.Service.Controllers{
 
         // DELETE /item/{id}
         [HttpDelete("{id}")]
+        [Authorize(Policies.Write)]
+
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var item = await itemsRepository.GetAsync(id);

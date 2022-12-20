@@ -13,7 +13,7 @@ namespace MyIdentity.Service.Controllers
 {
     [ApiController]
     [Route("users")]
-    [Authorize(Policy = LocalApi.PolicyName)] // policy for securing API that lives in Identity server
+    [Authorize(Policy = LocalApi.PolicyName, Roles = Roles.Admin)] // policy for securing API that lives in Identity server
     public class UsersController: ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
