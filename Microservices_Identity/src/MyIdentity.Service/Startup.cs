@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.MassTransit;
 using Common.Service.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,9 @@ using MongoDB.Bson.Serialization.Serializers;
 using MyIdentity.Service.Entities;
 using MyIdentity.Service.HostedServices;
 using MyIdentity.Service.Settings;
+using MyIdentity.Service.Exceptions;
+using MassTransit;
+using GreenPipes;
 
 namespace MyIdentity.Service
 {
@@ -47,6 +51,13 @@ namespace MyIdentity.Service
                     mongoDbSettings.ConnectionString,
                     serviceSettings.ServiceName
                 );
+
+            services.AddMassTransitWithRabbitMq(retryConfiguration =>
+            {
+                retryConfiguration.Interval(3, TimeSpan.FromSeconds(5));
+                retryConfiguration.Ignore(typeof(UnknownUserException));
+                retryConfiguration.Ignore(typeof(InsufficientFundsException));
+            });
 
             services.AddIdentityServer(options => {
                 options.Events.RaiseSuccessEvents = true;

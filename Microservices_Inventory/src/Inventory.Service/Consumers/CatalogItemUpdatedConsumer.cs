@@ -29,6 +29,8 @@ namespace Inventory.Service.Consumers
                     Name = message.Name,
                     Description = message.Description
                 };          
+                await repository.CreateAsync(item);
+
             } 
             else
             {
@@ -38,7 +40,6 @@ namespace Inventory.Service.Consumers
                 await repository.UpdateAsync(item);
             }
 
-            await repository.CreateAsync(item);
         }
     }
 }

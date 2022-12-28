@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MyIdentity.Service.Settings;
 using Microsoft.Extensions.Options;
+using MassTransit;
+using MyIdentity.Contracts;
 
 namespace MyIdentity.Service.Areas.Identity.Pages.Account
 {
@@ -28,18 +30,22 @@ namespace MyIdentity.Service.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly IdentitySettings identitySettings;
 
+        private readonly IPublishEndpoint publishEndpoint;
+
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IOptions<IdentitySettings> identityOptions)
+            IOptions<IdentitySettings> identityOptions,
+            IPublishEndpoint publishEndpoint)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             identitySettings = identityOptions.Value;
+            this.publishEndpoint = publishEndpoint;
         }
 
         [BindProperty]
@@ -88,6 +94,8 @@ namespace MyIdentity.Service.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, Roles.Player);
                     _logger.LogInformation($"User added to the role {Roles.Player} role.");
+
+                    await publishEndpoint.Publish(new UserUpdated(user.Id, user.Email, user.Gil));
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

@@ -19,6 +19,12 @@ using Polly;
 using Polly.Timeout;
 using Common.MassTransit;
 using Common.Identity;
+using Inventory.Service.Exceptions;
+using MassTransit;
+using GreenPipes;
+//using MassTransit.ExtensionsDependencyInjectionIntegration;
+
+//using GreenPipes;
 
 namespace Inventory.Service
 {
@@ -38,7 +44,11 @@ namespace Inventory.Service
             services.AddMongo()
                     .AddMongoRepository<InventoryItem>("inventoryitems")
                     .AddMongoRepository<CatalogItem>("catalogitems")
-                    .AddMassTransitWithRabbitMq()
+                    .AddMassTransitWithRabbitMq(retryConfigurator =>
+                    {
+                        retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+                        retryConfigurator.Ignore(typeof(UnknownItemException));
+                    })
                     .AddJwtBearerAuthentication();
 
             AddCatalogClient(services);

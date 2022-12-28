@@ -13,26 +13,28 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Inventory.Service/bin/Debug/net5.0/Inventory.Service.dll",
+            "program": "${workspaceFolder}/src/Inventory.Service/bin/Debug/net7.0/Inventory.Service.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Inventory.Service",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
+            // "serverReadyAction": {
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
-            }
+            },
+            "requireExactSource": false
+
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        }
+        },
     ]
 }

@@ -3,11 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Common.Service.Settings;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace Common.Identity
 {
     public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
     {
+        private const string AccessTokenParameter = "access_token";
+        private const string MessageHubPath = "/messageHub";
         private readonly IConfiguration configuration;
 
         public ConfigureJwtBearerOptions(IConfiguration configuration)
@@ -31,6 +34,23 @@ namespace Common.Identity
                     {
                         NameClaimType = "name",
                         RoleClaimType = "role"
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query[AccessTokenParameter];
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                path.StartsWithSegments(MessageHubPath))
+                                {
+                                    context.Token = accessToken;
+                                }
+                            return Task.CompletedTask;
+
+                        }
                     };
             }
         }
